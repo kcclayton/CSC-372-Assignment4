@@ -1,4 +1,5 @@
 const DEFAULT_SEARCH = "Friends";
+const MAX_DISPLAYED_RESULTS = 10;
 const searchForm = document.querySelector(".search-form");
 const searchInput = document.querySelector("#gallery-search");
 const searchStatus = document.querySelector(".search-status");
@@ -25,7 +26,9 @@ async function searchShows(searchTerm) {
     }
 
     const results = await response.json();
-    results.forEach(({ show }) => {
+    console.log("TVmaze search response:", results);
+    const displayedResults = results.slice(0, MAX_DISPLAYED_RESULTS);
+    displayedResults.forEach(({ show }) => {
       const item = document.createElement("li");
       const card = document.createElement("article");
       const title = document.createElement("h3");
@@ -51,8 +54,8 @@ async function searchShows(searchTerm) {
       gallery.append(item);
     });
 
-    searchStatus.textContent = results.length
-      ? `Found ${results.length} shows for "${searchTerm}".`
+    searchStatus.textContent = displayedResults.length
+      ? `Showing ${displayedResults.length}${results.length > displayedResults.length ? ` of ${results.length}` : ""} shows for "${searchTerm}".`
       : `No shows found for "${searchTerm}".`;
   } catch (error) {
     console.error(error);
