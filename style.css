@@ -57,6 +57,14 @@ h1 {
   font-size: 0.9rem;
 }
 
+.search-status--error {
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #f0c7c2;
+  border-radius: 0.55rem;
+  background: #fff4f2;
+  color: #9b3028;
+}
+
 .search-controls {
   display: flex;
   gap: 0.7rem;

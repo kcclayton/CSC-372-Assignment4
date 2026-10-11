@@ -9,10 +9,17 @@ searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const searchTerm = searchInput.value.trim();
+  if (!searchTerm) {
+    displaySearchError("Enter a show name before searching.");
+    searchInput.focus();
+    return;
+  }
+
   searchShows(searchTerm);
 });
 
 async function searchShows(searchTerm) {
+  searchStatus.classList.remove("search-status--error");
   searchStatus.textContent = `Searching for "${searchTerm}"...`;
   gallery.replaceChildren();
 
@@ -20,6 +27,14 @@ async function searchShows(searchTerm) {
     const response = await fetch(
       `https://api.tvmaze.com/search/shows?q=${encodeURIComponent(searchTerm)}`,
     );
+
+    if (response.status === 429) {
+      console.warn("TVmaze rate limit reached.");
+      displaySearchError(
+        "Too many searches right now. Please wait a moment and try again.",
+      );
+      return;
+    }
 
     if (!response.ok) {
       throw new Error(`TVmaze search failed with status ${response.status}.`);
@@ -59,8 +74,13 @@ async function searchShows(searchTerm) {
       : `No shows found for "${searchTerm}".`;
   } catch (error) {
     console.error(error);
-    searchStatus.textContent = "Unable to load shows. Please try again.";
+    displaySearchError("Unable to load shows. Please try again.");
   }
+}
+
+function displaySearchError(message) {
+  searchStatus.textContent = message;
+  searchStatus.classList.add("search-status--error");
 }
 
 searchInput.value = DEFAULT_SEARCH;
