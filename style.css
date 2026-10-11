@@ -51,6 +51,12 @@ h1 {
   font-weight: 650;
 }
 
+.search-status {
+  margin: 0.75rem 0 0;
+  color: #526a64;
+  font-size: 0.9rem;
+}
+
 .search-controls {
   display: flex;
   gap: 0.7rem;
