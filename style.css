@@ -123,8 +123,7 @@ section h2 {
 
 .gallery > li {
   min-width: 0;
-  flex: 1 1 15rem;
-  max-width: 22rem;
+  flex: 1 1 calc((100% - 3.75rem) / 4);
   overflow: hidden;
   border: 1px solid #e1e9e7;
   border-radius: 0.9rem;
@@ -164,7 +163,21 @@ section h2 {
   line-height: 1.55;
 }
 
+@media (max-width: 56rem) {
+  .gallery > li {
+    flex-basis: calc((100% - 1.25rem) / 2);
+  }
+}
+
 @media (max-width: 34rem) {
+  body {
+    padding: 1.25rem 1rem;
+  }
+
+  header {
+    margin-bottom: 2rem;
+  }
+
   .search-controls {
     flex-direction: column;
   }
@@ -174,7 +187,7 @@ section h2 {
   }
 
   .gallery > li {
-    max-width: none;
+    flex-basis: 100%;
   }
 }
 
