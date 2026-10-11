@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>TVmaze Gallery</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="script.js" defer></script>
+
+  </head>
+  <body>
+
+    <header>
+      <h1>TVmaze Gallery</h1>
+    </header>
+
+    <main>
+
+      <form class="search-form" role="search" action="#" method="get">
+        
+        <label for="gallery-search">Search the gallery</label>
+        <div class="search-controls">
+          <input
+            id="gallery-search"
+            name="q"
+            type="search"
+            placeholder="Enter a search term"
+          >
+          <button type="submit">Search</button>
+        </div>
+
+      </form>
+
+      <section aria-labelledby="gallery-heading">
+
+        <h2 id="gallery-heading">Gallery</h2>
+        <ul class="gallery" aria-label="Gallery results">
+        </ul>
+
+      </section>
+
+    </main>
+
+  </body>
+
+</html>
