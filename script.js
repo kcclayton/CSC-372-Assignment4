@@ -44,29 +44,7 @@ async function searchShows(searchTerm) {
     console.log("TVmaze search response:", results);
     const displayedResults = results.slice(0, MAX_DISPLAYED_RESULTS);
     displayedResults.forEach(({ show }) => {
-      const item = document.createElement("li");
-      const card = document.createElement("article");
-      const title = document.createElement("h3");
-
-      title.textContent = show.name;
-      card.append(title);
-
-      if (show.image?.medium) {
-        const image = document.createElement("img");
-        image.src = show.image.medium;
-        image.alt = `${show.name} poster`;
-        image.loading = "lazy";
-        card.prepend(image);
-      }
-
-      if (show.premiered) {
-        const premiered = document.createElement("p");
-        premiered.textContent = `Premiered ${show.premiered}`;
-        card.append(premiered);
-      }
-
-      item.append(card);
-      gallery.append(item);
+      gallery.append(buildShowCard(show));
     });
 
     searchStatus.textContent = displayedResults.length
@@ -76,6 +54,32 @@ async function searchShows(searchTerm) {
     console.error(error);
     displaySearchError("Unable to load shows. Please try again.");
   }
+}
+
+function buildShowCard(show) {
+  const item = document.createElement("li");
+  const card = document.createElement("article");
+  const title = document.createElement("h3");
+
+  title.textContent = show.name;
+  card.append(title);
+
+  if (show.image?.medium) {
+    const image = document.createElement("img");
+    image.src = show.image.medium;
+    image.alt = `${show.name} poster`;
+    image.loading = "lazy";
+    card.prepend(image);
+  }
+
+  if (show.premiered) {
+    const premiered = document.createElement("p");
+    premiered.textContent = `Premiered ${show.premiered}`;
+    card.append(premiered);
+  }
+
+  item.append(card);
+  return item;
 }
 
 function displaySearchError(message) {
