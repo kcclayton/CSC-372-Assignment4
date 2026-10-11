@@ -21,6 +21,13 @@ async function searchShows(searchTerm) {
       `https://api.tvmaze.com/search/shows?q=${encodeURIComponent(searchTerm)}`,
     );
 
+    if (response.status === 429) {
+      console.warn("TVmaze rate limit reached.");
+      searchStatus.textContent =
+        "Too many searches right now. Please wait a moment and try again.";
+      return;
+    }
+
     if (!response.ok) {
       throw new Error(`TVmaze search failed with status ${response.status}.`);
     }
