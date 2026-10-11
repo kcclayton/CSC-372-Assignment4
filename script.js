@@ -9,6 +9,12 @@ searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const searchTerm = searchInput.value.trim();
+  if (!searchTerm) {
+    searchStatus.textContent = "Enter a show name before searching.";
+    searchInput.focus();
+    return;
+  }
+
   searchShows(searchTerm);
 });
 
