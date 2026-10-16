@@ -148,6 +148,12 @@ section h2 {
   color: #0e685e;
 }
 
+.site-footer a:focus-visible {
+  border-radius: 0.15rem;
+  outline: 3px solid #75c8bc;
+  outline-offset: 3px;
+}
+
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
