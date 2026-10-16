@@ -25,9 +25,10 @@ You may choose the page’s visual style. You may also include the show poster w
 ### API resources
 TVmaze provides a free public API that returns JSON. Its public endpoints support browser requests and do not require an API key. Read the (official TVmaze API documentation)[https://www.tvmaze.com/api] before you begin.
 
-| TVmaze endpoints used in this assignment                               |
-|------------------------------------------------------------------------|
+#### TVmaze endpoints used in this assignment
+
 | Purpose                | Endpoint pattern                              |
+|------------------------|-----------------------------------------------|
 | Search for shows       | `https://api.tvmaze.com/search/shows?q=QUERY` |
 | Get a show’s main cast | `https://api.tvmaze.com/shows/SHOW_ID/cast`   |
 
