@@ -1,9 +1,14 @@
 const DEFAULT_SEARCH = "Friends";
 const MAX_DISPLAYED_RESULTS = 10;
+const TVMAZE_MIN_REQUEST_INTERVAL_MS = 500;
+const TVMAZE_MAX_429_RETRIES = 2;
+const TVMAZE_FALLBACK_RETRY_DELAY_MS = 5000;
 const searchForm = document.querySelector(".search-form");
 const searchInput = document.querySelector("#gallery-search");
 const searchStatus = document.querySelector(".search-status");
 const gallery = document.querySelector(".gallery");
+let tvmazeRequestQueue = Promise.resolve();
+let lastTvmazeRequestAt = 0;
 
 searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -24,7 +29,7 @@ async function searchShows(searchTerm) {
   gallery.replaceChildren();
 
   try {
-    const response = await fetch(
+    const response = await fetchTvmaze(
       `https://api.tvmaze.com/search/shows?q=${encodeURIComponent(searchTerm)}`,
     );
 
@@ -205,7 +210,9 @@ function buildShowCast() {
 
 async function loadShowCast(show, castList) {
   try {
-    const response = await fetch(`https://api.tvmaze.com/shows/${show.id}/cast`);
+    const response = await fetchTvmaze(
+      `https://api.tvmaze.com/shows/${show.id}/cast`,
+    );
     if (!response.ok) {
       throw new Error(`TVmaze cast request failed with status ${response.status}.`);
     }
@@ -229,6 +236,63 @@ async function loadShowCast(show, castList) {
 
 function appendCastPlaceholder(castList, message) {
   castList.replaceChildren(createElement("li", { textContent: message }));
+}
+
+function fetchTvmaze(url) {
+  const request = tvmazeRequestQueue.then(async () => {
+    await waitForTvmazeRequestSlot();
+
+    let response = await fetch(url);
+    lastTvmazeRequestAt = Date.now();
+
+    for (
+      let retry = 0;
+      response.status === 429 && retry < TVMAZE_MAX_429_RETRIES;
+      retry += 1
+    ) {
+      await delay(getRetryDelay(response, retry));
+      await waitForTvmazeRequestSlot();
+      response = await fetch(url);
+      lastTvmazeRequestAt = Date.now();
+    }
+
+    return response;
+  });
+
+  tvmazeRequestQueue = request.then(
+    () => undefined,
+    () => undefined,
+  );
+  return request;
+}
+
+async function waitForTvmazeRequestSlot() {
+  const waitTime =
+    TVMAZE_MIN_REQUEST_INTERVAL_MS - (Date.now() - lastTvmazeRequestAt);
+  if (waitTime > 0) {
+    await delay(waitTime);
+  }
+}
+
+function getRetryDelay(response, retry) {
+  const retryAfter = response.headers.get("Retry-After");
+  if (retryAfter) {
+    const retryAfterSeconds = Number(retryAfter);
+    if (Number.isFinite(retryAfterSeconds)) {
+      return Math.max(0, retryAfterSeconds * 1000);
+    }
+
+    const retryAfterDate = Date.parse(retryAfter);
+    if (Number.isFinite(retryAfterDate)) {
+      return Math.max(0, retryAfterDate - Date.now());
+    }
+  }
+
+  return TVMAZE_FALLBACK_RETRY_DELAY_MS * 2 ** retry;
+}
+
+function delay(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
 function buildShowLink(show) {
