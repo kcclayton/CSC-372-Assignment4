@@ -126,9 +126,8 @@ section h2 {
 }
 
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
   gap: 1.25rem;
   margin: 0;
   padding: 0;
@@ -136,8 +135,6 @@ section h2 {
 }
 
 .gallery > li {
-  min-width: 0;
-  flex: 1 1 calc((100% - 3.75rem) / 4);
   overflow: hidden;
   border: 1px solid #e1e9e7;
   border-radius: 0.9rem;
@@ -236,12 +233,6 @@ section h2 {
   outline-offset: 3px;
 }
 
-@media (max-width: 56rem) {
-  .gallery > li {
-    flex-basis: calc((100% - 1.25rem) / 2);
-  }
-}
-
 @media (max-width: 34rem) {
   body {
     padding: 1.25rem 1rem;
@@ -257,10 +248,6 @@ section h2 {
 
   .search-controls button {
     width: 100%;
-  }
-
-  .gallery > li {
-    flex-basis: 100%;
   }
 }
 
