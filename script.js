@@ -10,7 +10,7 @@ const gallery = document.querySelector(".gallery");
 let tvmazeRequestQueue = Promise.resolve();
 let lastTvmazeRequestAt = 0;
 
-searchForm.addEventListener("submit", (event) => {
+searchForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const searchTerm = searchInput.value.trim();
@@ -20,7 +20,10 @@ searchForm.addEventListener("submit", (event) => {
     return;
   }
 
-  searchShows(searchTerm);
+  const succeeded = await searchShows(searchTerm);
+  if (succeeded && searchInput.value.trim() === searchTerm) {
+    searchInput.value = "";
+  }
 });
 
 async function searchShows(searchTerm) {
@@ -38,7 +41,7 @@ async function searchShows(searchTerm) {
       displaySearchError(
         "Too many searches right now. Please wait a moment and try again.",
       );
-      return;
+      return false;
     }
 
     if (!response.ok) {
@@ -57,9 +60,11 @@ async function searchShows(searchTerm) {
     searchStatus.textContent = displayedResults.length
       ? `Showing ${displayedResults.length}${results.length > displayedResults.length ? ` of ${results.length}` : ""} shows for "${searchTerm}".`
       : `No shows found for "${searchTerm}".`;
+    return true;
   } catch (error) {
     console.error(error);
     displaySearchError("Unable to load shows. Please try again.");
+    return false;
   }
 }
 
