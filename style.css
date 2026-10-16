@@ -151,7 +151,7 @@ section h2 {
   box-shadow: 0 1rem 2rem rgb(27 54 63 / 11%);
 }
 
-.gallery img {
+.gallery .show-card__image {
   display: block;
   width: 100%;
   aspect-ratio: 3 / 2;
@@ -159,22 +159,81 @@ section h2 {
   background: #e8efed;
 }
 
-.gallery h3,
-.gallery p {
+.gallery .show-card__image--placeholder {
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  color: #647773;
+  font-size: 0.9rem;
+}
+
+.gallery .show-card__title,
+.gallery .show-card__summary,
+.gallery .show-card__detail,
+.gallery .show-card__cast,
+.gallery .show-card__link {
   margin: 1rem 1rem 0;
 }
 
-.gallery h3 {
+.gallery .show-card__title {
   color: #203641;
   font-size: 1.1rem;
   line-height: 1.35;
 }
 
-.gallery p {
+.gallery .show-card__summary {
   margin-top: 0.4rem;
-  margin-bottom: 1rem;
   color: #647773;
   line-height: 1.55;
+}
+
+.gallery .show-card__detail {
+  margin-top: 0.45rem;
+  color: #526a64;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.gallery .show-card__detail strong {
+  color: #314650;
+}
+
+.gallery .show-card__cast {
+  margin-top: 0.75rem;
+  color: #526a64;
+}
+
+.gallery .show-card__cast h4 {
+  margin: 0;
+  color: #314650;
+  font-size: 0.9rem;
+}
+
+.gallery .show-card__cast-list {
+  margin: 0.35rem 0 0;
+  padding-left: 1.15rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.gallery .show-card__link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+  color: #137c70;
+  font-weight: 650;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.2em;
+}
+
+.gallery .show-card__link:hover {
+  color: #0e685e;
+}
+
+.gallery .show-card__link:focus-visible {
+  border-radius: 0.15rem;
+  outline: 3px solid #75c8bc;
+  outline-offset: 3px;
 }
 
 @media (max-width: 56rem) {
