@@ -68,6 +68,9 @@ function buildShowCard(show) {
   card.append(buildShowGenres(show));
   card.append(buildShowRating(show));
   card.append(buildShowDates(show));
+  card.append(
+    buildShowDetail("Last updated", formatUpdatedDate(show.updated)),
+  );
   const cast = buildShowCast();
   card.append(cast.section);
 
@@ -136,6 +139,21 @@ function buildShowDates(show) {
     buildShowDetail("End date", show.ended || "Not available"),
   );
   return dates;
+}
+
+function formatUpdatedDate(updated) {
+  if (typeof updated !== "number" || !Number.isFinite(updated)) {
+    return "Not available";
+  }
+
+  const updatedDate = new Date(updated * 1000);
+  if (Number.isNaN(updatedDate.getTime())) {
+    return "Not available";
+  }
+
+  return new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(
+    updatedDate,
+  );
 }
 
 function buildShowDetail(label, value) {
