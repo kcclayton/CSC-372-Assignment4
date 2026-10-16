@@ -85,19 +85,33 @@ function buildShowCard(show) {
 
 function buildShowImage(show) {
   const imageUrl = show.image?.medium;
-  const hasPoster = Boolean(imageUrl);
-  return createElement(hasPoster ? "img" : "div", {
-    className: hasPoster
-      ? "show-card__image"
-      : "show-card__image show-card__image--placeholder",
-    textContent: hasPoster ? undefined : "Poster unavailable",
-    attributes: hasPoster
-      ? {
-          src: imageUrl,
-            alt: `Poster for ${displayValue(show.name)}`,
-          loading: "lazy",
-        }
-      : { role: "img", "aria-label": "Poster unavailable" },
+  if (!imageUrl) {
+    return createPosterPlaceholder();
+  }
+
+  const poster = createElement("img", {
+    className: "show-card__image",
+    attributes: {
+      src: imageUrl,
+      alt: `Poster for ${displayValue(show.name)}`,
+      loading: "lazy",
+    },
+  });
+
+  poster.addEventListener(
+    "error",
+    () => poster.replaceWith(createPosterPlaceholder()),
+    { once: true },
+  );
+
+  return poster;
+}
+
+function createPosterPlaceholder() {
+  return createElement("div", {
+    className: "show-card__image show-card__image--placeholder",
+    textContent: "Poster unavailable",
+    attributes: { role: "img", "aria-label": "Poster unavailable" },
   });
 }
 
