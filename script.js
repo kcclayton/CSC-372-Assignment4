@@ -94,7 +94,7 @@ function buildShowImage(show) {
     attributes: hasPoster
       ? {
           src: imageUrl,
-          alt: `${show.name || "Show"} poster`,
+            alt: `Poster for ${displayValue(show.name)}`,
           loading: "lazy",
         }
       : { role: "img", "aria-label": "Poster unavailable" },
