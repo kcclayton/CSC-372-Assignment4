@@ -130,10 +130,15 @@ function buildShowGenres(show) {
 }
 
 function buildShowRating(show) {
-  return buildShowDetail(
-    "Rating",
-    show.rating?.average == null ? "Not rated" : `${show.rating.average}/10`,
-  );
+  const average = show.rating?.average;
+  const rating =
+    typeof average === "number" && Number.isFinite(average)
+      ? `${new Intl.NumberFormat(undefined, {
+          maximumFractionDigits: 1,
+        }).format(average)} / 10`
+      : "Not rated";
+
+  return buildShowDetail("Rating", rating);
 }
 
 function buildShowDates(show) {
