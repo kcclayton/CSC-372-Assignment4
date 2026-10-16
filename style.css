@@ -125,6 +125,29 @@ section h2 {
   letter-spacing: -0.035em;
 }
 
+.site-footer {
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+  padding-top: 1rem;
+  border-top: 1px solid #e1e9e7;
+  color: #647773;
+  font-size: 0.9rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer a {
+  color: #137c70;
+  font-weight: 650;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.2em;
+}
+
+.site-footer a:hover {
+  color: #0e685e;
+}
+
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
