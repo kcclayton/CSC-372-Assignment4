@@ -109,13 +109,17 @@ function buildShowTitle(show) {
 }
 
 function buildShowSummary(show) {
-  const summaryText = show.summary
-    ? new DOMParser().parseFromString(show.summary, "text/html").body.textContent.trim()
-    : "";
+  const summaryText = show.summary ? stripHtmlMarkup(show.summary) : "";
   return createElement("p", {
     className: "show-card__summary",
     textContent: summaryText || "No summary available.",
   });
+}
+
+function stripHtmlMarkup(html) {
+  return new DOMParser()
+    .parseFromString(html, "text/html")
+    .body.textContent.trim();
 }
 
 function buildShowGenres(show) {
