@@ -136,7 +136,7 @@ section h2 {
 }
 
 .gallery > li {
-  min-width: 0;
+  min-width: 13rem;
   flex: 1 1 calc((100% - 3.75rem) / 4);
   overflow: hidden;
   border: 1px solid #e1e9e7;
