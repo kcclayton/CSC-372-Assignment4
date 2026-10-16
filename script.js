@@ -104,7 +104,7 @@ function buildShowImage(show) {
 function buildShowTitle(show) {
   return createElement("h3", {
     className: "show-card__title",
-    textContent: show.name || "Untitled show",
+    textContent: displayValue(show.name),
   });
 }
 
@@ -112,7 +112,7 @@ function buildShowSummary(show) {
   const summaryText = show.summary ? stripHtmlMarkup(show.summary) : "";
   return createElement("p", {
     className: "show-card__summary",
-    textContent: summaryText || "No summary available.",
+    textContent: summaryText || "Not available",
   });
 }
 
@@ -125,7 +125,9 @@ function stripHtmlMarkup(html) {
 function buildShowGenres(show) {
   return buildShowDetail(
     "Genres",
-    show.genres?.length ? show.genres.join(", ") : "Not available",
+    show.genres?.length
+      ? show.genres.map((genre) => displayValue(genre)).join(", ")
+      : "Not available",
   );
 }
 
@@ -136,7 +138,7 @@ function buildShowRating(show) {
       ? `${new Intl.NumberFormat(undefined, {
           maximumFractionDigits: 1,
         }).format(average)} / 10`
-      : "Not rated";
+      : "Not available";
 
   return buildShowDetail("Rating", rating);
 }
@@ -144,10 +146,14 @@ function buildShowRating(show) {
 function buildShowDates(show) {
   const dates = createElement("div", { className: "show-card__dates" });
   dates.append(
-    buildShowDetail("Premiere date", show.premiered || "Not available"),
-    buildShowDetail("End date", show.ended || "Not available"),
+    buildShowDetail("Premiere date", displayValue(show.premiered)),
+    buildShowDetail("End date", displayValue(show.ended)),
   );
   return dates;
+}
+
+function displayValue(value) {
+  return value == null ? "Not available" : String(value);
 }
 
 function formatUpdatedDate(updated) {
@@ -168,7 +174,7 @@ function formatUpdatedDate(updated) {
 function buildShowDetail(label, value) {
   const detail = createElement("p", { className: "show-card__detail" });
   const heading = createElement("strong", { textContent: `${label}: ` });
-  detail.append(heading, document.createTextNode(value));
+  detail.append(heading, document.createTextNode(displayValue(value)));
   return detail;
 }
 
@@ -193,19 +199,17 @@ async function loadShowCast(show, castList) {
     const cast = await response.json();
     castList.replaceChildren();
     if (!cast.length) {
-      appendCastPlaceholder(castList, "Cast information unavailable.");
+      appendCastPlaceholder(castList, "Not available");
       return;
     }
 
     cast.slice(0, 5).forEach(({ person, character }) => {
-      const name = character?.name
-        ? `${person.name} as ${character.name}`
-        : person.name;
+      const name = `${displayValue(person?.name)} as ${displayValue(character?.name)}`;
       castList.append(createElement("li", { textContent: name }));
     });
   } catch (error) {
     console.error(`Unable to load cast for "${show.name}".`, error);
-    appendCastPlaceholder(castList, "Cast information unavailable.");
+    appendCastPlaceholder(castList, "Not available");
   }
 }
 
