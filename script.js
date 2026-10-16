@@ -130,8 +130,12 @@ function buildShowRating(show) {
 }
 
 function buildShowDates(show) {
-  const dates = [show.premiered, show.ended].filter(Boolean).join(" – ");
-  return buildShowDetail("Dates", dates || "Not available");
+  const dates = createElement("div", { className: "show-card__dates" });
+  dates.append(
+    buildShowDetail("Premiere date", show.premiered || "Not available"),
+    buildShowDetail("End date", show.ended || "Not available"),
+  );
+  return dates;
 }
 
 function buildShowDetail(label, value) {
