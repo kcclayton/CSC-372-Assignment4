@@ -3,7 +3,7 @@
 Build a searchable TV show gallery with HTML, CSS, and JavaScript. Use the Fetch API to search TVmaze for shows and display matching results. You will practice making a request, working with JSON, making a second request for related data, and updating a page from user input.
 
 ### Objectives
-- Use `fetch()` to request and process JSON data.
+- Use fetch() to request and process JSON data.
 - Use a second fetch request to retrieve cast information for each show.
 - Update the page when a visitor submits a search.
 - Display results in a responsive gallery built with Flexbox.
@@ -25,10 +25,9 @@ You may choose the page’s visual style. You may also include the show poster w
 ### API resources
 TVmaze provides a free public API that returns JSON. Its public endpoints support browser requests and do not require an API key. Read the (official TVmaze API documentation)[https://www.tvmaze.com/api] before you begin.
 
-#### TVmaze endpoints used in this assignment
-
+| TVmaze endpoints used in this assignment                               |
+|------------------------------------------------------------------------|
 | Purpose                | Endpoint pattern                              |
-|------------------------|-----------------------------------------------|
 | Search for shows       | `https://api.tvmaze.com/search/shows?q=QUERY` |
 | Get a show’s main cast | `https://api.tvmaze.com/shows/SHOW_ID/cast`   |
 
@@ -43,9 +42,9 @@ Replace `QUERY` with the visitor’s search text and `SHOW_ID` with the ID of a 
 - Include a visible attribution link to TVmaze. Its public API is licensed under CC BY-SA and requires source credit; review the (TVmaze licensing terms)[https://www.tvmaze.com/api#licensing].
 
 ### Implementation notes
-- Use `fetch()` and check the response status before calling `json()`. Handle network and HTTP errors.
-- A show summary may contain HTML. Convert it to readable text before inserting it into the page. Avoid inserting API-provided text with `innerHTML`.
-    - use `createElement()`.
+- Use `fetch()` and check the response status before calling json(). Handle network and HTTP errors.
+- A show summary may contain HTML. Convert it to readable text before inserting it into the page. Avoid inserting API-provided text with innerHTML.
+    - use `createElement().
 - Some shows have no cast entries, summary, rating, date, or poster. Make sure the card still renders correctly when optional data is missing.
 - The API may return HTTP 429 when its rate limit is exceeded. Avoid unnecessary repeat requests and show an appropriate message if a request is limited.
 
